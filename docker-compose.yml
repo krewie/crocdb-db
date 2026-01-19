@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  python-dev:
+    build: .
+    container_name: croc-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+    tty: true
+    stdin_open: true

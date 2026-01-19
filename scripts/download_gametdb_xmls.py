@@ -39,7 +39,7 @@ def download_gametdb_xmls():
             # Download the file
             r = requests.get(url, headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.75 Safari/537.36'
-            }, timeout=5)
+            }, timeout=500)
 
             if r.ok:
                 # Extract the ZIP file name from the URL

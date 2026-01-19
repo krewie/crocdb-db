@@ -6,3 +6,4 @@
 /scrapers/internet_archive_creds.json
 /*.db
 __pycache__/
+.DS_Store
