@@ -16,9 +16,7 @@ HOST_NAME = 'MarioCube'
 
 
 def extract_entries(response, source, platform, base_url):
-    """Extract entries from the ANSI-colored directory listing response."""
-    entries = []
-
+    """Stream entries from the ANSI-colored directory listing response."""
     for filename, size_str in parse_listing_lines(response):
         match = re.match(source['filter'], filename)
         if not match:
@@ -26,10 +24,10 @@ def extract_entries(response, source, platform, base_url):
 
         title = match.group(1)
         encoded_link = urllib.parse.quote(filename)
-        entries.append(create_entry(
-            encoded_link, filename, title, size_str, source, platform, base_url))
+        yield create_entry(
+            encoded_link, filename, title, size_str, source, platform, base_url
+        )
 
-    return entries
 
 
 def create_entry(link, filename, title, size_str, source, platform, base_url):
@@ -86,23 +84,15 @@ def fetch_response(url, use_cached, session=None):
 
 
 def scrape(source, platform, use_cached=False):
-    """Scrape entries from MarioCube based on the source configuration."""
-    entries = []
+    """Stream entries from MarioCube based on the source configuration."""
     session = create_scraper_session()
 
     for url in source['urls']:
-        # Fetch the response for each URL
         response = fetch_response(url, use_cached, session=session)
         if not response:
             print(f"Failed to get response from {url}")
-            sys.exit(1)
+            continue
 
-        # Extract entries from the response
-        parsed_entries = extract_entries(response, source, platform, url)
-        if not parsed_entries:
-            print(f"Failed to parse entries from {url}")
-            sys.exit(1)
+        for entry in extract_entries(response, source, platform, url):
+            yield entry
 
-        entries.extend(parsed_entries)
-
-    return entries

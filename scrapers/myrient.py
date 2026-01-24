@@ -9,33 +9,68 @@ import sys
 from utils import cache_manager
 from utils.scrape_utils import fetch_url
 from utils.parse_utils import size_bytes_to_str, size_str_to_bytes, join_urls
+import requests
+import threading
+_thread_local = threading.local()
+
+def get_session():
+    if not hasattr(_thread_local, "session"):
+        s = requests.Session()
+        s.headers.update({
+            "User-Agent": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+        })
+        _thread_local.session = s
+    return _thread_local.session
 
 HOST_NAME = 'Myrient'
 
 
 def extract_entries(response, source, platform, base_url):
-    """Extract entries from the HTML response using regex."""
     entries = []
-    # Regex pattern to extract link, title, and size from table rows
-    pattern = (
-        r"<tr><td class=\"link\"><a href=\"(.*?)\" title=\".*?\">(.*?)</a></td><td class=\"size\">(.*?)</td><td class=\"date\">.*?</td></tr>"
-    )
-    matches = re.findall(pattern, response)
 
-    for link, title, size_str in matches:
-        # Apply the filter from the source configuration
-        match = re.match(source['filter'], title)
+    pattern = re.compile(
+        r"<tr.*?>.*?"
+        r"<td.*?class=\"link\".*?>.*?"
+        r"<a.*?href=\"(.*?)\".*?>(.*?)</a>.*?"
+        r"<td.*?class=\"size\".*?>(.*?)</td>",
+        re.DOTALL | re.IGNORECASE
+    )
+
+    matches = pattern.findall(response)
+
+    for link, raw_title, size_str in matches:
+        raw_title = html.unescape(raw_title)
+
+        match = re.search(source['filter'], raw_title)
         if not match:
             continue
 
-        filename = title  # Original filename
-        title = match.group(1)  # Extract the filtered title
+        filename = raw_title
+        title = match.group(1) if match.groups() else raw_title
 
-        # Create an entry and add it to the list
-        entries.append(create_entry(
-            link, filename, title, size_str, source, platform, base_url))
+        entries.append(
+            create_entry(
+                link,
+                filename,
+                title,
+                size_str,
+                source,
+                platform,
+                base_url,
+            )
+        )
 
     return entries
+
 
 
 def create_entry(link, filename, title, size_str, source, platform, base_url):
@@ -66,34 +101,34 @@ def create_entry(link, filename, title, size_str, source, platform, base_url):
 
 
 def fetch_response(url, use_cached):
-    """Fetch the response from a URL, optionally using a cached version."""
     if use_cached:
-        # Attempt to retrieve the response from the cache
-        response = cache_manager.get_cached_response(url)
-        if response:
-            return response
+        cached = cache_manager.get_cached_response(url)
+        if cached:
+            return cached
 
-    # Fetch the URL directly if no cached response is available
-    return fetch_url(url)
+    try:
+        response = fetch_url(url, session=get_session())
+        return response
+    except Exception as e:
+        print(f"[MYRIENT][FETCH FAIL] {url} ({type(e).__name__})")
+        return None
+
 
 
 def scrape(source, platform, use_cached=False):
-    """Scrape entries from Myrient based on the source configuration."""
-    entries = []
-
+    """Stream entries from Myrient based on the source configuration."""
     for url in source['urls']:
-        # Fetch the response for each URL
         response = fetch_response(url, use_cached)
         if not response:
-            print(f"Failed to get response from {url}")
-            sys.exit(1)
+            print(f"[MYRIENT] Failed to get response from {url}")
+            continue
 
-        # Extract entries from the response
-        parsed_entries = extract_entries(response, source, platform, url)
-        if not parsed_entries:
-            print(f"Failed to parse entries from {url}")
-            sys.exit(1)
+        found = False
 
-        entries.extend(parsed_entries)
+        for entry in extract_entries(response, source, platform, url):
+            found = True
+            yield entry
 
-    return entries
+        if not found:
+            print(f"[MYRIENT] No entries parsed from {url}")
+

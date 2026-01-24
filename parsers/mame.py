@@ -41,7 +41,7 @@ def parse(entries, flags):
         # Check if the entry's title matches a ROM name
         if entry['title'] in roms:
             entry['rom_id'] = entry['title']
-            # Update the title with the ROM description
             entry['title'] = roms[entry['title']]
 
-    return entries
+        yield entry
+

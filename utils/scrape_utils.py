@@ -2,8 +2,11 @@
 This module provides utilities for scraping web content and caching responses.
 """
 import cloudscraper
-
+import requests 
 from utils import cache_manager
+import socket
+import requests.adapters
+import urllib3.util.connection
 
 CURL_HEADERS = {
     'User-Agent': 'curl/8.13.0',
@@ -20,23 +23,21 @@ def create_scraper_session(headers=None):
     return session
 
 
-def fetch_url(url, session=None):
-    """Fetch the content of a URL and cache the response."""
+def fetch_url(url, session=None, timeout=(15, 120)):
     if not session:
-        # Create a new session if none is provided
         session = create_scraper_session(CURL_HEADERS)
 
-    # Perform the GET request with no timeout specified
-    r = session.get(url, timeout=None)
+    try:
+        r = session.get(url, timeout=timeout)
+    except Exception as e:
+        print(f"[FETCH][FAIL] {url} ({type(e).__name__})")
+        return None   # <-- do NOT raise
 
-    # Check if the response status is not OK (e.g., 404, 500)
     if not r.ok:
         return None
 
-    # Extract the response text
     response = r.text
-
-    # Cache the response for future use
     cache_manager.cache_response(url, response)
-
     return response
+
+

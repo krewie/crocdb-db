@@ -1,0 +1,35 @@
+{
+    "nes": [
+        {
+            "format": "nes",
+            "regions": [],
+            "urls": [
+                "https://myrient.erista.me/files/No-Intro/Nintendo%20-%20Nintendo%20Entertainment%20System%20%28Headered%29/",
+                "https://myrient.erista.me/files/No-Intro/Nintendo%20-%20Nintendo%20Entertainment%20System%20%28Headerless%29%20%28Private%29/"
+            ],
+            "scraper": "myrient",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "ps1": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sony_playstation_part1"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ]
+}

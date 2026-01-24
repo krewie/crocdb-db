@@ -33,5 +33,5 @@ def parse(entries, flags):
     """Process a list of entries by extracting ROM IDs and cleaning titles."""
     for entry in entries:
         process_entry(entry)
+        yield entry
 
-    return entries

@@ -1,155 +1,134 @@
 """
-This module provides functionality to scrape data from Internet Archive indexes. 
-It includes methods for logging into the Internet Archive, fetching responses, 
-extracting entries from HTML content, and creating structured data entries.
+Internet Archive scraper (metadata-based, directory-URL compatible).
+
+This scraper interprets /download/.../A/ URLs as *path filters*,
+NOT as fetch targets.
 """
-import re
-import cloudscraper
-import html
+
 import json
-import sys
+import html
+import re
+from urllib.parse import quote, urlparse
+
 from utils import cache_manager
 from utils.scrape_utils import fetch_url
-from utils.parse_utils import size_bytes_to_str, size_str_to_bytes, join_urls
+from utils.parse_utils import size_bytes_to_str
 
-HOST_NAME = 'Internet Archive'
-
-LOGIN_URL = 'https://archive.org/account/login'
-
-session = None
+HOST_NAME = "Internet Archive"
+METADATA_URL = "https://archive.org/metadata"
+DOWNLOAD_BASE = "https://archive.org/download"
 
 
-def get_login_session(creds_path='scrapers/internet_archive_creds.json'):
-    """Create and return a session logged into the Internet Archive."""
-    try:
-        # Load credentials
-        with open(creds_path, 'r') as f:
-            creds = json.load(f)
+def parse_ia_download_url(url):
+    """
+    Parse an IA /download URL into:
+    - identifier
+    - internal path prefix (may be empty)
+    """
+    path = urlparse(url).path.strip("/")
 
-        session = cloudscraper.create_scraper()
+    # /download/{identifier}/optional/path/
+    parts = path.split("/", 2)
 
-        # Initial GET request to establish session cookies
-        session.get(LOGIN_URL)
+    if len(parts) < 2 or parts[0] != "download":
+        raise ValueError(f"Not an IA download URL: {url}")
 
-        r = session.post(LOGIN_URL, data={
-            'username': creds['username'],
-            'password': creds['password']
-        })
+    identifier = parts[1]
+    prefix = ""
 
-        if not r.ok:
-            raise Exception("Wrong or invalid credentials")
+    if len(parts) == 3:
+        prefix = parts[2].rstrip("/") + "/"
 
-        return session
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Error reading credentials: {e}")
-        sys.exit(1)
-    except Exception as e:
-        print(f"Failed to log into Internet Archive: {e}")
-        sys.exit(1)
-    return None
+    return identifier, prefix
 
 
-def extract_entries(response, source, platform, base_url):
-    """Extract entries from the HTML response using regex."""
-    entries = []
-    # Regex pattern to extract link, title, and size from table rows
-    pattern = (
-        r"<tr >.*?<td><a href=\"(.*?)\">(.*?)</a>.*?</td>.*?<td>.*?</td>.*?<td>(.*?)</td>.*?</tr>"
-    )
-    matches = re.findall(pattern, response, re.DOTALL)
-
-    for link, title, size_str in matches:
-        # Apply the filter from the source configuration
-        match = re.match(source['filter'], title)
-        if not match:
-            continue
-
-        filename = title
-        title = match.group(1)  # Extract the filtered title
-
-        # Create an entry and add it to the list
-        entries.append(create_entry(
-            link, filename, title, size_str, source, platform, base_url))
-
-    return entries
+def build_download_url(identifier, name):
+    return f"{DOWNLOAD_BASE}/{identifier}/{quote(name, safe='/')}"
 
 
-def create_entry(link, filename, title, size_str, source, platform, base_url):
-    """Create a dictionary representing a single entry."""
-    name = html.unescape(title)
-    size = size_str_to_bytes(size_str)
+def fetch_metadata(identifier, use_cached=False):
+    url = f"{METADATA_URL}/{identifier}"
+
+    if use_cached:
+        cached = cache_manager.get_cached_response(url)
+        if cached:
+            return json.loads(cached)
+
+    response = fetch_url(url)
+    if not response:
+        return None
+
+    cache_manager.cache_response(url, response)
+    return json.loads(response)
+
+
+def create_entry(identifier, file_obj, source, platform):
+    name = html.unescape(file_obj["name"])
+    size = int(file_obj.get("size", 0))
     size_str = size_bytes_to_str(size)
-    url = join_urls(base_url, link)
 
+    url = build_download_url(identifier, file_obj["name"])
     return {
-        'title': name,
-        'platform': platform,
-        'regions': source['regions'],
-        'links': [
+        "title": name,
+        "platform": platform,
+        "regions": source["regions"],
+        "links": [
             {
-                'name': name,
-                'type': source['type'],
-                'format': source['format'],
-                'url': url,
-                'filename': filename,
-                'host': HOST_NAME,
-                'size': size,
-                'size_str': size_str,
-                'source_url': base_url
+                "name": name,
+                "type": source["type"],
+                "format": source["format"],
+                "url": url,
+                "filename": name.split("/")[-1],
+                "host": HOST_NAME,
+                "size": size,
+                "size_str": size_str,
+                "source_url": f"{DOWNLOAD_BASE}/{identifier}",
             }
-        ]
+        ],
     }
 
 
-def fetch_response(url, session, use_cached):
-    """Fetch the response from a URL, optionally using a cached version."""
-    if use_cached:
-        # Attempt to retrieve the response from the cache
-        response = cache_manager.get_cached_response(url)
-        if response:
-            return response
-
-    # Fetch the URL using the provided session
-    return fetch_url(url, session)
-
-
 def scrape(source, platform, use_cached=False):
-    """Scrapes entries from the Internet Archive based on the source configuration."""
-    global session
-
     entries = []
 
-    # First attempt: scrape without login session
-    for url in source['urls']:
-        response = fetch_response(url, session, use_cached)
-        if not response:
-            print(f"Failed to get response from {url}")
-            sys.exit(1)
+    # Compile filter once
+    filter_pattern = re.compile(source["filter"], re.IGNORECASE)
 
-        parsed_entries = extract_entries(response, source, platform, url)
-        if parsed_entries:
-            entries.extend(parsed_entries)
-        else:
-            # Initialize the session if not already done
-            if not session:
-                session = get_login_session()
-                if not session:
-                    print("Unable to create a session.")
-                    sys.exit(1)
+    # Parse all source URLs into (identifier, prefix)
+    parsed_sources = []
+    for url in source["urls"]:
+        identifier, prefix = parse_ia_download_url(url)
+        parsed_sources.append((identifier, prefix))
 
-            # Retry with login session
-            response = fetch_response(url, session, use_cached)
-            if not response:
-                print(f"Failed to get response from {url}")
-                sys.exit(1)
+    # Group prefixes per identifier
+    prefixes_by_id = {}
+    for identifier, prefix in parsed_sources:
+        prefixes_by_id.setdefault(identifier, set()).add(prefix)
 
-            parsed_entries = extract_entries(response, source, platform, url)
-            if parsed_entries:
-                for entry in parsed_entries:
-                    for link in entry['links']:
-                        link['type'] += " (Requires Internet Archive Log in)"
-                entries.extend(parsed_entries)
-            else:
-                print(f"No entries parsed from {url}")
+    # Process each IA item once
+    for identifier, prefixes in prefixes_by_id.items():
+        metadata = fetch_metadata(identifier, use_cached)
+        if not metadata or "files" not in metadata:
+            print(f"[IA] Failed to fetch metadata for {identifier}")
+            continue
+
+        for file_obj in metadata["files"]:
+            if file_obj.get("source") != "original":
+                continue
+
+            name = file_obj.get("name", "")
+            if not name:
+                continue
+
+            # Must match one of the directory prefixes
+            if not any(name.startswith(prefix) for prefix in prefixes):
+                continue
+
+            basename = name.split("/")[-1]
+            if not filter_pattern.match(basename):
+                continue
+
+            entry = create_entry(identifier, file_obj, source, platform)
+            entries.append(entry)
 
     return entries

@@ -164,16 +164,12 @@ def create_entry(result, source, platform, base_url):
 
 
 def parse_response(response, source, platform, base_url):
-    """Parse the response and extract entries."""
-    entries = []
     results = csv.DictReader(io.StringIO(response), delimiter='\t')
 
     for result in results:
         entry = create_entry(result, source, platform, base_url)
         if entry and entry['links']:
-            entries.append(entry)
-
-    return entries
+            yield entry
 
 
 def fetch_response(url, use_cached):
@@ -187,24 +183,16 @@ def fetch_response(url, use_cached):
 
 
 def scrape(source, platform, use_cached=False):
-    """Scrape data from the source and extract entries."""
-    # Ensure directories exist
+    """Stream data from the source and extract entries."""
     for path in (PS3_RAPS_DIR, PSV_ZRIFS_DIR):
         os.makedirs(path, exist_ok=True)
-
-    entries = []
 
     for url in source['urls']:
         response = fetch_response(url, use_cached)
         if not response:
             print(f"Failed to get response from {url}")
-            sys.exit(1)
+            continue
 
-        parsed_entries = parse_response(response, source, platform, url)
-        if not parsed_entries:
-            print(f"Failed to parse entries from {url}")
-            sys.exit(1)
+        for entry in parse_response(response, source, platform, url):
+            yield entry
 
-        entries.extend(parsed_entries)
-
-    return entries

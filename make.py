@@ -8,10 +8,21 @@ import json
 import sys
 import os
 import shutil
+import threading
+import queue
+import time
 from parsers import no_intro
 from scrapers import myrient, internet_archive, nopaystation, mariocube
 from parsers import libretro, gametdb, mame, wii_rom_set_by_ghostware
 from database import db_manager
+
+class Stats:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.enqueued = 0
+        self.written = 0
+
+stats = Stats()
 
 SCRAPERS = {
     'myrient': myrient,
@@ -50,8 +61,93 @@ def get_parser(name):
     """Retrieve a parser by its name."""
     return PARSERS.get(name)
 
+def monitor_worker(entry_queue, stop_event):
+    last_written = 0
+    last_enqueued = 0
+    last_time = time.time()
 
-def process_sources(sources, use_cached):
+    while not stop_event.is_set():
+        time.sleep(2)
+
+        with stats.lock:
+            enq = stats.enqueued
+            wr = stats.written
+
+        now = time.time()
+        dt = max(now - last_time, 0.001)
+
+        write_rate = (wr - last_written) / dt
+        enqueue_rate = (enq - last_enqueued) / dt
+        backlog = enq - wr
+        backlog_delta = (enq - last_enqueued) - (wr - last_written)
+
+        trend = (
+            "↑ growing" if backlog_delta > 0 else
+            "↓ draining" if backlog_delta < 0 else
+            "→ stable"
+        )
+        
+        if enqueue_rate == 0 and write_rate == 0 and entry_queue.qsize() == 0:
+            continue
+
+
+        print(
+            f"[STATS] "
+            f"enq={enq} wr={wr} "
+            f"queue={entry_queue.qsize()} "
+            f"backlog={backlog:+} ({trend}) "
+            f"enq_rate={enqueue_rate:.1f}/s "
+            f"wr_rate={write_rate:.1f}/s"
+        )
+
+        last_written = wr
+        last_enqueued = enq
+        last_time = now
+
+
+
+## One writer, one db connection, serialized writes...
+def db_writer_worker(entry_queue, stop_event):
+    db_manager.init_database()
+    last_report = time.time()
+
+    try:
+        while not stop_event.is_set() or not entry_queue.empty():
+            try:
+                entry = entry_queue.get(timeout=0.5)
+            except queue.Empty:
+                continue
+
+            db_manager.insert_entry(entry)
+
+            with stats.lock:
+                stats.written += 1
+
+            entry_queue.task_done()
+
+            # Periodic progress report (UNCHANGED)
+            now = time.time()
+            if now - last_report >= 2.0:
+                with stats.lock:
+                    qsize = entry_queue.qsize()
+                    enq = stats.enqueued
+                    wr = stats.written
+
+                print(
+                    f"[DB] written={wr} "
+                    f"queue={qsize} "
+                    f"backlog={enq - wr}"
+                )
+                last_report = now
+
+    finally:
+        db_manager.close_database()
+        print("[DB] database closed")
+
+
+
+
+def process_sources(sources, use_cached, entry_queue):
     """Process the sources to scrape, parse, and insert data into the database."""
     for platform, source_list in sources.items():
         print(f"\n{platform}:")
@@ -65,21 +161,21 @@ def process_sources(sources, use_cached):
 
             scraper = get_scraper(source['scraper'])
             if not scraper:
-                print(f"Scraper '{source['scraper']}' not found.")
-                sys.exit(1)
+                raise RuntimeError(f"Scraper '{source['scraper']}' not found")
 
             entries = scraper.scrape(source, platform, use_cached)
 
             for parser_name, parser_flags in source['parsers'].items():
+                print(parser_name)
                 parser = get_parser(parser_name)
                 if not parser:
-                    print(f"Parser '{parser_name}' not found.")
-                    sys.exit(1)
-
+                    raise RuntimeError(f"Parser '{parser_name}' not found")
                 entries = parser.parse(entries, parser_flags)
 
             for entry in entries:
-                db_manager.insert_entry(entry)
+                entry_queue.put(entry)
+                with stats.lock:
+                    stats.enqueued += 1
 
 
 def move_static_files(destination_dir, static_dir='static'):
@@ -109,12 +205,32 @@ def make(use_cached=False):
     """Main function to initialize the database, process sources, and close the database."""
     config = load_config()
     sources = load_sources()
-    db_manager.init_database()
 
-    process_sources(sources, use_cached)
+    entry_queue = queue.Queue(maxsize=2000)
+    stop_event = threading.Event()
 
-    db_manager.close_database()
-    print("Database created successfully.")
+    writer_thread = threading.Thread(
+        target=db_writer_worker,
+        args=(entry_queue, stop_event),
+        daemon=True
+    )
+    writer_thread.start()
+
+    ## monitor thread
+
+    monitor_thread = threading.Thread(
+        target=monitor_worker,
+        args=(entry_queue, stop_event),
+        daemon=True
+    )
+    monitor_thread.start()
+
+    try:
+        process_sources(sources, use_cached, entry_queue)
+    finally:
+        entry_queue.join()
+        stop_event.set()
+        writer_thread.join()
 
     static_files_dir_path = config.get('static_files_dir_path')
     if static_files_dir_path:

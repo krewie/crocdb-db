@@ -364,32 +364,33 @@ def load_dbs():
 
 
 def parse(entries, flags):
-    """Parse a list of entries and enrich them with ROM IDs and box art URLs."""
     if not dbs:
         load_dbs()
 
     for entry in entries:
-        # Retrieve the database for the platform
-        db = dbs.get(entry['platform'])
+        db = dbs.get(entry['platform'], {})
         entry['rom_id'] = db.get(entry['title'])
 
-        # Construct the URL for box art thumbnails
-        index_url = f"https://thumbnails.libretro.com/{quote(PLATFORMS[entry['platform']]['system'])}/Named_Boxarts/"
+        index_url = (
+            f"https://thumbnails.libretro.com/"
+            f"{quote(PLATFORMS[entry['platform']]['system'])}/Named_Boxarts/"
+        )
 
-        # If box art list is not cached, fetch it from the server
-        if not 'available_boxarts' in PLATFORMS[entry['platform']]:
+        if 'available_boxarts' not in PLATFORMS[entry['platform']]:
             PLATFORMS[entry['platform']]['available_boxarts'] = []
             r = requests.get(index_url)
-
-            # Extract box art filenames from the HTML response
             results = re.findall(
-                r"<tr>.*alt=\"\[IMG\]\".*?href=\"(.*?)\".*?>.*?</tr>", r.text)
+                r"<tr>.*alt=\"\[IMG\]\".*?href=\"(.*?)\".*?>.*?</tr>",
+                r.text,
+                re.DOTALL,
+            )
             for result in results:
                 PLATFORMS[entry['platform']]['available_boxarts'].append(
-                    remove_ext(unquote(result)))
+                    remove_ext(unquote(result))
+                )
 
-        # Add box art URL if available
         if entry['title'] in PLATFORMS[entry['platform']]['available_boxarts']:
             entry['boxart_url'] = f"{index_url}{quote(entry['title'])}.png"
 
-    return entries
+        yield entry
+

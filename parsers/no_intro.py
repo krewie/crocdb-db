@@ -175,13 +175,20 @@ def process_entry(entry, parse_title_regions, clean_title_contents, move_title_a
 
 
 def parse(entries, flags):
-    """Parse a list of entries and process each one."""
+    entries = list(entries)
+    print("[no_intro] incoming:", len(entries))
+
     parse_title_regions = flags.get('parse_title_regions', True)
     clean_title_contents = flags.get('clean_title_contents', True)
     move_title_article = flags.get('move_title_article', True)
 
     for entry in entries:
-        process_entry(entry, parse_title_regions,
-                      clean_title_contents, move_title_article)
+        process_entry(
+            entry,
+            parse_title_regions,
+            clean_title_contents,
+            move_title_article,
+        )
+        yield entry
 
-    return entries
+

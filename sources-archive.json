@@ -1,0 +1,1042 @@
+{
+    "gc": [
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/AsiaGamecubeCollectionByGhostware"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.iso",
+            "parsers": {
+                "no_intro": {
+                    "parse_title_regions": false,
+                    "clean_title_contents": false,
+                    "move_title_article": true
+                },
+                "gametdb": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/NCubeJ"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "nds": [
+        {
+            "format": "nds",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/%23/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/A/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/B/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/C/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/D/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/E/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/F/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/G/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/H/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/I/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/J/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/K/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/L/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/M/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/N/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/O/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/P/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/Q/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/R/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/S/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/T/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/U/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/V/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/W/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/X/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/Y/",
+                "https://archive.org/download/MarioCubeLite/DSiWare/NDS/Z/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.nds",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "wad",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/%23/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/A/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/B/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/C/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/D/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/E/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/F/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/G/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/H/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/I/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/J/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/K/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/L/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/M/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/N/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/O/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/P/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/Q/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/R/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/S/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/T/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/U/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/V/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/W/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/X/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/Y/",
+                "https://archive.org/download/MarioCubeLite/WADs/_WiiWare%2C%20VC%2C%20DLC%2C%20Channels%20%26%20IOS/Z/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.wad",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "3ds": [
+        {
+            "format": "3ds",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/3ds-main-encrypted",
+                "https://archive.org/download/3ds-main-encrypted-p2"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game (Encrypted)"
+        }
+    ],
+    "ps1": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sony_playstation_part1",
+                "https://archive.org/download/sony_playstation_part2",
+                "https://archive.org/download/sony_playstation_part3",
+                "https://archive.org/download/sony_playstation_part4",
+                "https://archive.org/download/sony_playstation_part5"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [
+                "us"
+            ],
+            "urls": [
+                "https://archive.org/download/chd_psx/CHD-PSX-USA/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [
+                "eu"
+            ],
+            "urls": [
+                "https://archive.org/download/chd_psx_eur/CHD-PSX-EUR/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [
+                "jp"
+            ],
+            "urls": [
+                "https://archive.org/download/chd_psx_jap/CHD-PSX-JAP/",
+                "https://archive.org/download/chd_psx_jap_p2/CHD-PSX-JAP/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/chd_psx_misc/CHD-PSX-Misc/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "ps2": [
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sony_playstation2_numberssymbols",
+                "https://archive.org/download/sony_playstation2_a",
+                "https://archive.org/download/sony_playstation2_b",
+                "https://archive.org/download/sony_playstation2_c",
+                "https://archive.org/download/sony_playstation2_d_part1",
+                "https://archive.org/download/sony_playstation2_d_part2",
+                "https://archive.org/download/sony_playstation2_e",
+                "https://archive.org/download/sony_playstation2_f",
+                "https://archive.org/download/sony_playstation2_g",
+                "https://archive.org/download/sony_playstation2_h",
+                "https://archive.org/download/sony_playstation2_i",
+                "https://archive.org/download/sony_playstation2_j",
+                "https://archive.org/download/sony_playstation2_k",
+                "https://archive.org/download/sony_playstation2_l",
+                "https://archive.org/download/sony_playstation2_m_part1",
+                "https://archive.org/download/sony_playstation2_m_part2",
+                "https://archive.org/download/sony_playstation2_n",
+                "https://archive.org/download/sony_playstation2_o_part1",
+                "https://archive.org/download/sony_playstation2_o_part2",
+                "https://archive.org/download/sony_playstation2_p",
+                "https://archive.org/download/sony_playstation2_q",
+                "https://archive.org/download/sony_playstation2_r",
+                "https://archive.org/download/sony_playstation2_s_part1",
+                "https://archive.org/download/sony_playstation2_s_part2",
+                "https://archive.org/download/sony_playstation2_s_part3",
+                "https://archive.org/download/sony_playstation2_s_part4",
+                "https://archive.org/download/sony_playstation2_t",
+                "https://archive.org/download/sony_playstation2_u",
+                "https://archive.org/download/sony_playstation2_v",
+                "https://archive.org/download/sony_playstation2_w",
+                "https://archive.org/download/sony_playstation2_x",
+                "https://archive.org/download/sony_playstation2_z"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "psp": [
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sony_playstation_portable_part1",
+                "https://archive.org/download/sony_playstation_portable_part2",
+                "https://archive.org/download/sony_playstation_portable_part3",
+                "https://archive.org/download/sony_playstation_portable_part4"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/psp-chd-zstd-redump-part1/psp-chd-zstd/",
+                "https://archive.org/download/psp-chd-zstd-redump-part2/psp-chd-zstd/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/PSNCollectionByGhostware"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.iso",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "ps3": [
+        {
+            "format": "pkg",
+            "regions": [],
+            "urls": [
+                "https://nopaystation.com/tsv/PS3_GAMES.tsv",
+                "https://nopaystation.com/tsv/PS3_DEMOS.tsv"
+            ],
+            "scraper": "nopaystation",
+            "filter": null,
+            "parsers": {
+                "gametdb": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "pkg",
+            "regions": [],
+            "urls": [
+                "https://nopaystation.com/tsv/PS3_DLCS.tsv"
+            ],
+            "scraper": "nopaystation",
+            "filter": null,
+            "parsers": {
+                "gametdb": {}
+            },
+            "type": "DLC"
+        },
+        {
+            "format": "pkg/rap",
+            "regions": [
+                "us"
+            ],
+            "urls": [
+                "https://archive.org/download/PS3_NOINTRO_USA_1",
+                "https://archive.org/download/PS3_NOINTRO_USA_2",
+                "https://archive.org/download/PS3_NOINTRO_USA_3",
+                "https://archive.org/download/PS3_NOINTRO_USA_4",
+                "https://archive.org/download/PS3_NOINTRO_USA__5",
+                "https://archive.org/download/PS3_NOINTRO_USA_6",
+                "https://archive.org/download/PS3_NOINTRO_USA_7",
+                "https://archive.org/download/PS3_NOINTRO_USA_8",
+                "https://archive.org/download/PS3_NOINTRO_USA_9",
+                "https://archive.org/download/PS3_NOINTRO_USA_10"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "pkg/rap",
+            "regions": [
+                "eu"
+            ],
+            "urls": [
+                "https://archive.org/download/PS3_NOINTRO_EUR_1",
+                "https://archive.org/download/PS3_NOINTRO_EUR_2",
+                "https://archive.org/download/PS3_NOINTRO_EUR_3",
+                "https://archive.org/download/PS3_NOINTRO_EUR_4",
+                "https://archive.org/download/PS3_NOINTRO_EUR_5",
+                "https://archive.org/download/PS3_NOINTRO_EUR_6",
+                "https://archive.org/download/PS3_NOINTRO_EUR_7"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "pkg/rap",
+            "regions": [
+                "jp"
+            ],
+            "urls": [
+                "https://archive.org/download/PS3_NOINTRO_JAP_1",
+                "https://archive.org/download/PS3_NOINTRO_JAP_2",
+                "https://archive.org/download/PS3_NOINTRO_JAP_3",
+                "https://archive.org/download/PS3_NOINTRO_JAP_4"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sony_playstation3_numberssymbols",
+                "https://archive.org/download/sony_playstation3_a_part1",
+                "https://archive.org/download/sony_playstation3_a_part2",
+                "https://archive.org/download/sony_playstation3_a_part3",
+                "https://archive.org/download/sony_playstation3_b_part1",
+                "https://archive.org/download/sony_playstation3_b_part2",
+                "https://archive.org/download/sony_playstation3_b_part3",
+                "https://archive.org/download/sony_playstation3_c_part1",
+                "https://archive.org/download/sony_playstation3_c_part2",
+                "https://archive.org/download/sony_playstation3_c_part3",
+                "https://archive.org/download/sony_playstation3_d_part1",
+                "https://archive.org/download/sony_playstation3_d_part2",
+                "https://archive.org/download/sony_playstation3_d_part3",
+                "https://archive.org/download/sony_playstation3_d_part4",
+                "https://archive.org/download/sony_playstation3_d_part5",
+                "https://archive.org/download/sony_playstation3_e",
+                "https://archive.org/download/sony_playstation3_f_part1",
+                "https://archive.org/download/sony_playstation3_f_part2",
+                "https://archive.org/download/sony_playstation3_f_part3",
+                "https://archive.org/download/sony_playstation3_g_part1",
+                "https://archive.org/download/sony_playstation3_g_part2",
+                "https://archive.org/download/sony_playstation3_g_part3",
+                "https://archive.org/download/sony_playstation3_h_part1",
+                "https://archive.org/download/sony_playstation3_h_part2",
+                "https://archive.org/download/sony_playstation3_i",
+                "https://archive.org/download/sony_playstation3_j",
+                "https://archive.org/download/sony_playstation3_k",
+                "https://archive.org/download/sony_playstation3_l_part1",
+                "https://archive.org/download/sony_playstation3_l_part2",
+                "https://archive.org/download/sony_playstation3_l_part3",
+                "https://archive.org/download/sony_playstation3_m_part1",
+                "https://archive.org/download/sony_playstation3_m_part2",
+                "https://archive.org/download/sony_playstation3_m_part3",
+                "https://archive.org/download/sony_playstation3_m_part4",
+                "https://archive.org/download/sony_playstation3_m_part5",
+                "https://archive.org/download/sony_playstation3_n_part1",
+                "https://archive.org/download/sony_playstation3_n_part2",
+                "https://archive.org/download/sony_playstation3_n_part3",
+                "https://archive.org/download/sony_playstation3_o_part1",
+                "https://archive.org/download/sony_playstation3_o_part2",
+                "https://archive.org/download/sony_playstation3_o_part3",
+                "https://archive.org/download/sony_playstation3_p_part1",
+                "https://archive.org/download/sony_playstation3_p_part2",
+                "https://archive.org/download/sony_playstation3_q",
+                "https://archive.org/download/sony_playstation3_r_part1",
+                "https://archive.org/download/sony_playstation3_r_part2",
+                "https://archive.org/download/sony_playstation3_r_part3",
+                "https://archive.org/download/sony_playstation3_r_part4",
+                "https://archive.org/download/sony_playstation3_s_part1",
+                "https://archive.org/download/sony_playstation3_s_part2",
+                "https://archive.org/download/sony_playstation3_s_part3",
+                "https://archive.org/download/sony_playstation3_s_part4",
+                "https://archive.org/download/sony_playstation3_s_part5",
+                "https://archive.org/download/sony_playstation3_s_part6",
+                "https://archive.org/download/sony_playstation3_t_part1",
+                "https://archive.org/download/sony_playstation3_t_part2",
+                "https://archive.org/download/sony_playstation3_t_part3",
+                "https://archive.org/download/sony_playstation3_t_part4",
+                "https://archive.org/download/sony_playstation3_u_part1",
+                "https://archive.org/download/sony_playstation3_u_part2",
+                "https://archive.org/download/sony_playstation3_v",
+                "https://archive.org/download/sony_playstation3_w_part1",
+                "https://archive.org/download/sony_playstation3_w_part2",
+                "https://archive.org/download/sony_playstation3_x",
+                "https://archive.org/download/sony_playstation3_y",
+                "https://archive.org/download/sony_playstation3_z"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.iso",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {},
+                "gametdb": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "xbox": [
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/microsoft_xbox_numberssymbols",
+                "https://archive.org/download/microsoft_xbox_a",
+                "https://archive.org/download/microsoft_xbox_b",
+                "https://archive.org/download/microsoft_xbox_c_part1",
+                "https://archive.org/download/microsoft_xbox_c_part2",
+                "https://archive.org/download/microsoft_xbox_d_part1",
+                "https://archive.org/download/microsoft_xbox_d_part2",
+                "https://archive.org/download/microsoft_xbox_e",
+                "https://archive.org/download/microsoft_xbox_f",
+                "https://archive.org/download/microsoft_xbox_g",
+                "https://archive.org/download/microsoft_xbox_h",
+                "https://archive.org/download/microsoft_xbox_i",
+                "https://archive.org/download/microsoft_xbox_j",
+                "https://archive.org/download/microsoft_xbox_k",
+                "https://archive.org/download/microsoft_xbox_l",
+                "https://archive.org/download/microsoft_xbox_m_part1",
+                "https://archive.org/download/microsoft_xbox_m_part2",
+                "https://archive.org/download/microsoft_xbox_n_part1",
+                "https://archive.org/download/microsoft_xbox_n_part2",
+                "https://archive.org/download/microsoft_xbox_o_part1",
+                "https://archive.org/download/microsoft_xbox_o_part2",
+                "https://archive.org/download/microsoft_xbox_p",
+                "https://archive.org/download/microsoft_xbox_q",
+                "https://archive.org/download/microsoft_xbox_r",
+                "https://archive.org/download/microsoft_xbox_s_part1",
+                "https://archive.org/download/microsoft_xbox_s_part2",
+                "https://archive.org/download/microsoft_xbox_t_part1",
+                "https://archive.org/download/microsoft_xbox_t_part2",
+                "https://archive.org/download/microsoft_xbox_u",
+                "https://archive.org/download/microsoft_xbox_v",
+                "https://archive.org/download/microsoft_xbox_w",
+                "https://archive.org/download/microsoft_xbox_x",
+                "https://archive.org/download/microsoft_xbox_y",
+                "https://archive.org/download/microsoft_xbox_z"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "x360": [
+        {
+            "format": "iso",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/microsoft_xbox360_numberssymbols",
+                "https://archive.org/download/microsoft_xbox360_a_part1",
+                "https://archive.org/download/microsoft_xbox360_a_part2",
+                "https://archive.org/download/microsoft_xbox360_b_part1",
+                "https://archive.org/download/microsoft_xbox360_b_part2",
+                "https://archive.org/download/microsoft_xbox360_c_part1",
+                "https://archive.org/download/microsoft_xbox360_c_part2",
+                "https://archive.org/download/microsoft_xbox360_d_part1",
+                "https://archive.org/download/microsoft_xbox360_d_part2",
+                "https://archive.org/download/microsoft_xbox360_d_part3",
+                "https://archive.org/download/microsoft_xbox360_e",
+                "https://archive.org/download/microsoft_xbox360_f_part1",
+                "https://archive.org/download/microsoft_xbox360_f_part2",
+                "https://archive.org/download/microsoft_xbox360_g",
+                "https://archive.org/download/microsoft_xbox360_h",
+                "https://archive.org/download/microsoft_xbox360_i",
+                "https://archive.org/download/microsoft_xbox360_j",
+                "https://archive.org/download/microsoft_xbox360_k",
+                "https://archive.org/download/microsoft_xbox360_l",
+                "https://archive.org/download/microsoft_xbox360_m_part1",
+                "https://archive.org/download/microsoft_xbox360_m_part2",
+                "https://archive.org/download/microsoft_xbox360_n_part1",
+                "https://archive.org/download/microsoft_xbox360_n_part2",
+                "https://archive.org/download/microsoft_xbox360_o",
+                "https://archive.org/download/microsoft_xbox360_p",
+                "https://archive.org/download/microsoft_xbox360_q",
+                "https://archive.org/download/microsoft_xbox360_r",
+                "https://archive.org/download/microsoft_xbox360_s_part1",
+                "https://archive.org/download/microsoft_xbox360_s_part2",
+                "https://archive.org/download/microsoft_xbox360_t_part1",
+                "https://archive.org/download/microsoft_xbox360_t_part2",
+                "https://archive.org/download/microsoft_xbox360_u",
+                "https://archive.org/download/microsoft_xbox360_v",
+                "https://archive.org/download/microsoft_xbox360_w",
+                "https://archive.org/download/microsoft_xbox360_x_part1",
+                "https://archive.org/download/microsoft_xbox360_x_part2",
+                "https://archive.org/download/microsoft_xbox360_y",
+                "https://archive.org/download/microsoft_xbox360_z"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "DIGITAL",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/microsoft_xbox360_digital_part1",
+                "https://archive.org/download/microsoft_xbox360_digital_part2",
+                "https://archive.org/download/microsoft_xbox360_digital_part3",
+                "https://archive.org/download/microsoft_xbox360_digital_part4",
+                "https://archive.org/download/microsoft_xbox360_digital_part5",
+                "https://archive.org/download/microsoft_xbox360_digital_part6",
+                "https://archive.org/download/microsoft_xbox360_digital_part7"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "sms": [
+        {
+            "format": "sms",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.ms-mkiii"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "gg": [
+        {
+            "format": "gg",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.gg"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "smd": [
+        {
+            "format": "md",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.md"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "scd": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sega_mega-cd_sega-cd"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "32x",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.32x"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "sat": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sega_saturn"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [
+                "us"
+            ],
+            "urls": [
+                "https://archive.org/download/chd_saturn/CHD-Saturn/USA/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [
+                "eu"
+            ],
+            "urls": [
+                "https://archive.org/download/chd_saturn/CHD-Saturn/Europe/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [
+                "jp"
+            ],
+            "urls": [
+                "https://archive.org/download/chd_saturn/CHD-Saturn/Japan/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/chd_saturn/CHD-Saturn/Other-Regions/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "dc": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/sega_dreamcast"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        },
+        {
+            "format": "chd",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/dc-chd-zstd-redump/dc-chd-zstd/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "mame": [
+        {
+            "format": "rom",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/mame-chds-roms-extras-complete"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "mame": {},
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "a26": [
+        {
+            "format": "a26",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.atari-2600"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "a52": [
+        {
+            "format": "a52",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.atari-5200"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "a78": [
+        {
+            "format": "a78",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.atari-7800"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "jag": [
+        {
+            "format": "chd",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/jagcd-chd-zstd/jagcd-chd-zstd/"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.chd",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "jcd": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/atari_jaguar-cd"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "tg16": [
+        {
+            "format": "pce",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nointro.tg-16"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.7z",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "tgcd": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nec_pc-engine-cd_turbografx-cd"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "pcfx": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nec_pc-fxpc_fxga"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "pc98": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/nec_pc-98_series"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "3do": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/panasonic_3do_interactive_multiplayer"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "cdi": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/philips_cd-i"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "fmt": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/fujitsu_fm_towns_series"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "ngcd": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/snk_neo_geo"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "libretro": {},
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ],
+    "pip": [
+        {
+            "format": "bin/cue",
+            "regions": [],
+            "urls": [
+                "https://archive.org/download/bandai_pippin"
+            ],
+            "scraper": "internet_archive",
+            "filter": "(.*)\\.zip",
+            "parsers": {
+                "no_intro": {}
+            },
+            "type": "Game"
+        }
+    ]
+}

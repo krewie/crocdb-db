@@ -5,6 +5,7 @@ It includes utilities for caching box art URLs, mapping game types and regions
 to platforms, and validating box art URLs.
 """
 import re
+import os
 import json
 import requests
 import xml.etree.ElementTree as ET
@@ -238,7 +239,22 @@ def load_tdbs():
     tdbs = {}
 
     for xml_filename in XML_FILENAMES:
-        tree = ET.parse(f'data/gametdb/{xml_filename}')
+        
+        path = f'data/gametdb/{xml_filename}'
+
+        if not os.path.exists(path):
+            print(f"[GAMETDB] Missing {path}, skipping")
+            tdbs[xml_filename] = []
+            continue
+
+        try:
+            tree = ET.parse(path)
+        except ET.ParseError as e:
+            print(f"[GAMETDB] Invalid XML {path}: {e}")
+            tdbs[xml_filename] = []
+            continue
+
+
         root = tree.getroot()
 
         tdbs[xml_filename] = []
@@ -369,7 +385,6 @@ def get_boxart_url_by_id(id, platform):
 
 
 def parse(entries, flags):
-    """Parse game entries and enrich them with additional data."""
     if not tdbs:
         load_tdbs()
 
@@ -377,54 +392,56 @@ def parse(entries, flags):
     parse_name = flags.get('parse_name', False)
 
     for entry in entries:
-        xml_filename = PLATFORM_XML_MAP[entry['platform']]
+        xml_filename = PLATFORM_XML_MAP.get(entry['platform'])
+        if not xml_filename:
+            yield entry
+            continue
 
-        # If a rom ID is set already, parse the box art URL or name directly
+        # Case 1: ROM ID already known
         if entry.get('rom_id'):
             if parse_boxart:
                 entry['boxart_url'] = get_boxart_url_by_id(
-                    entry['rom_id'], entry['platform'])
+                    entry['rom_id'], entry['platform']
+                )
+
             if parse_name:
                 for game in tdbs[xml_filename]:
-                    if game['id'] != entry['rom_id']:
-                        continue
+                    if game['id'] == entry['rom_id']:
+                        entry['title'] = game['name']
+                        break
 
-                    entry['title'] = game['name']
-                    break
-
+            yield entry
             continue
 
-        # We do not have a rom ID, use the logic to find the best matching game in TDB
-
-        # Get a simple to compare value from the entry title
+        # Case 2: Try to resolve via title matching
         title_compare_value = create_search_key(
-            re.sub(r"\(.*", '', entry['title']))
+            re.sub(r"\(.*", "", entry['title'])
+        )
 
-        regions = entry['regions']
+        regions = entry.get('regions', [])
         platform = entry['platform']
 
         best_match = None
         best_match_name = None
 
         for game in tdbs[xml_filename]:
-            # Skip if platform does not match
-            if platform != TYPE_PLATFORM_MAP[xml_filename].get(game['type'], platform):
+            mapped_platform = TYPE_PLATFORM_MAP[xml_filename].get(
+                game['type'], platform
+            )
+            if platform != mapped_platform:
                 continue
 
-            # Skip if game region does not match any of the entry regions
             game_region = REGION_REGION_MAP.get(game['region'])
             if regions and game_region not in regions:
                 continue
 
-            # Get a simple to compare value from the game name
             name_compare_value = create_search_key(
-                re.sub(r"\(.*", '', game['name']))
+                re.sub(r"\(.*", "", game['name'])
+            )
 
-            # Skip if entry title is not a substring of game name
             if title_compare_value not in name_compare_value:
                 continue
 
-            # Update best match
             if not best_match_name or len(name_compare_value) < len(best_match_name):
                 best_match = game
                 best_match_name = game['name']
@@ -432,8 +449,9 @@ def parse(entries, flags):
         if best_match:
             if parse_boxart:
                 entry['boxart_url'] = get_boxart_url_by_id(
-                    best_match['id'], platform)
+                    best_match['id'], platform
+                )
             if parse_name:
                 entry['title'] = best_match['name']
 
-    return entries
+        yield entry
