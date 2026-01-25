@@ -61,24 +61,64 @@ def fetch_metadata(identifier, use_cached=False):
     cache_manager.cache_response(url, response)
     return json.loads(response)
 
+# Delivery containers that should never be part of identity
+CONTAINER_EXTENSIONS = (
+    ".zip",
+    ".7z",
+    ".pkg",
+    ".chd",
+    ".rap",
+    ".iso",
+    ".nds",
+    ".wad",
+    ".wbfs",
+    ".wua"
+)
+
+# Rare but safe to handle if they appear
+DOUBLE_CONTAINER_EXTENSIONS = (
+    ".iso.zip",
+    ".bin.zip",
+    ".cue.zip",
+)
+
+def strip_extension(filename: str) -> str:
+    lower = filename.lower()
+
+    # Handle double-container cases first (insurance)
+    for ext in DOUBLE_CONTAINER_EXTENSIONS:
+        if lower.endswith(ext):
+            return filename[:-len(ext)]
+
+    # Strip only true containers
+    for ext in CONTAINER_EXTENSIONS:
+        if lower.endswith(ext):
+            return filename[:-len(ext)]
+
+    # Everything else is identity-relevant
+    return filename
+
 
 def create_entry(identifier, file_obj, source, platform):
-    name = html.unescape(file_obj["name"])
+    raw_name = html.unescape(file_obj["name"])
+    filename = raw_name.split("/")[-1]
+    title = strip_extension(filename)
+
     size = int(file_obj.get("size", 0))
     size_str = size_bytes_to_str(size)
 
     url = build_download_url(identifier, file_obj["name"])
     return {
-        "title": name,
+        "title": title,
         "platform": platform,
         "regions": source["regions"],
         "links": [
             {
-                "name": name,
+                "name": title,
                 "type": source["type"],
                 "format": source["format"],
                 "url": url,
-                "filename": name.split("/")[-1],
+                "filename": filename,
                 "host": HOST_NAME,
                 "size": size,
                 "size_str": size_str,
